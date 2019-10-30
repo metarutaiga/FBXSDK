@@ -138,6 +138,21 @@ public:
 	}
 };
 
+//! Deletion policy for pointer template classes that uses the delete[] operator.
+template <class Type> class FbxDeletionPolicyArray
+{
+public:
+    //! Destruction policy implementation.
+    static inline void DeleteIt(Type** pPtr)
+    {
+        if (*pPtr)
+        {
+            delete[] *pPtr;
+            *pPtr = NULL;
+        }
+    }
+};
+
 //! Deletion policy for pointer template classes that uses the FbxDelete() function.
 template<typename T> void FbxDelete(T* p);
 template<typename T> void FbxDelete(const T* p);

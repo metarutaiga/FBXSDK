@@ -37,19 +37,54 @@ TABLE OF CONTENTS
 
 1.1 Improvements and New Features
 
-    * Re-enabled the Alembic caches support for Ogawa archives. HDF5 is not supported anymore inside the FBX SDK.
-      Note that all the WindowStore and IOs architectures do not provide Alembic support.
+    * Constant FBXSDK_TC_MILLISECOND have been changed from 46186158 to 141120 to accurately support
+      frame rates like ~23.976, ~29.97, 72 and 96 fps.
+      
+    * The enum value eFrames119dot88 has been added to the FbxTime::EMode enum. In the same vein, the
+      FbxTCSetMNTSC_4Xnd and FbxTCGetMNTSC_4Xnd helper functions have been added to deal with this new
+      ~119.88 frame rate.
+      
+    * The class FbxAxysSystem has been extended and provides the new function "DeepConvertScene" that
+      modifies transforms, vertex positions, animation curves and so on throughout the hierarchy.
+      Consequently, it is able to accurately support handedness changes.
 
 1.2 Changes and Deprecated Features
 
-    * Consider animation corrupted if keys times are not ordered by increase value
-      (i.e: T(i) must be less or equal to T(i+1))
+    * The improvement of the FBXSDK_TC_MILLISECOND is big enough to break the compatibility with
+      version 7.5. To minimize adoption issues, the change in this version of the FBX SDK can be
+      triggered by calling FbxTCSetDefinition(FBXSDK_TC_STANDARD_DEFINITION). By default, we keep
+      using the old value (FBXSDK_TC_LEGACY_DEFINITION) and you "opt in" for the new one. 
+      Over time, the "opt in" will become the default and the file version will be bumped to 8.0
+      (so previous versions of the FBX SDK can detect that the new file is incompatible).
+      
+      In the meantime, it is expected that 7.7 files saved with the new precision, will still be
+      readable by previous FBX SDKs (2016,2017 and 2018) BUT with totally bad timings. 
+      
+    * custom defined ALEMBIC_VERSION_NS to avoid possible conflict with third partly Alembic library.
+    
+    * removed the forced pack to 8 (the statements #pragma pack(push, 8) / pop() were enclosing all 
+      the FBX SDK includes in fbxsdk.h)
 
 
 2. FIXED AND KNOWN ISSUES
 -------------------------
 
 2.1 Fixed Issues
+
+    [FBXX-1513] Fix crash in MergeMeshes when user data is defined.
+    [FBXX-1510] Mixed folder separator character (\ & /) breaks extraction of embedded textures.
+    
+2.2 Known Issues
+
+
+3. RELEASE NOTES FROM PREVIOUS RELEASES
+---------------------------------------
+2019.2
+    * Re-enabled the Alembic caches support for Ogawa archives. HDF5 is not supported anymore inside the
+      FBX SDK. Note that all the WindowStore and IOs architectures do not provide Alembic support.
+      
+    * Consider animation corrupted if keys times are not ordered by increase value
+      (i.e: T(i) must be less or equal to T(i+1))
 
     [FBXX-1499] Fix potential crash when writing Acclaim file.
     [FBXX-1483] Security Improvements.
@@ -60,11 +95,6 @@ TABLE OF CONTENTS
     [FBXX-1474] Password protected files status is overwritten.
     [FBXX-1433] Update Alembic to version 1.7.5.
     
-2.2 Known Issues
-
-
-3. RELEASE NOTES FROM PREVIOUS RELEASES
----------------------------------------
 2019.1
     * Added the FBX standardized renaming strategy to the Collada file read/write. This renaming
       strategy will replace every character in the object names/ids, which does not comply with

@@ -72,7 +72,7 @@ public:
 	}
 
 private:
-	size_t mRecordSize;
+	const size_t mRecordSize;
 };
 
 /** This allocator only frees the allocated memory when it is deleted.

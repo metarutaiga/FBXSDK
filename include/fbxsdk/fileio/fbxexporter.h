@@ -238,7 +238,8 @@ public:
 ** WARNING! Anything beyond these lines is for internal use, may not be documented and is subject to change without notice! **
 *****************************************************************************************************************************/
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-	bool GetExportOptions(FbxIO* pFbxObject);
+    void TCSetDefinition(int pType);
+    bool GetExportOptions(FbxIO* pFbxObject);
 	bool Export(FbxDocument* pDocument, FbxIO* pFbxObject);
 
 protected:

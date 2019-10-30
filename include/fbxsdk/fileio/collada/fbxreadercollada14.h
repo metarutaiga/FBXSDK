@@ -80,7 +80,7 @@ public:
     * \return Return true if the specified file is opened.
     */
     virtual bool FileOpen(char* pFileName);
-    
+
     /** Close file.
     * \return Return true if file is closed successfully, false otherwise.
     */
@@ -90,7 +90,7 @@ public:
     * \return Return true if file is open, false otherwise.
     */
 	virtual bool IsFileOpen();
-    
+
     //@}
 
     /**

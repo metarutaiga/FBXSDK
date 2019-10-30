@@ -88,6 +88,9 @@ public:
 	static void* MyMalloc(size_t pSize)
     {
         char *p = (char*)malloc(pSize + FBXSDK_MEMORY_ALIGNMENT);
+        if (p == nullptr) {
+            return p;
+        }
 		memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
         return p + FBXSDK_MEMORY_ALIGNMENT;
     }
@@ -95,6 +98,9 @@ public:
 	static void* MyCalloc(size_t pCount, size_t pSize)
     {
         char *p = (char*)calloc(pCount, pSize + FBXSDK_MEMORY_ALIGNMENT);
+        if (p == nullptr) {
+            return p;
+        }
 		memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
         return p + FBXSDK_MEMORY_ALIGNMENT;
     }
@@ -107,12 +113,18 @@ public:
             if (*((char*)pData-1)=='#')
             {
                 char *p = (char*)realloc((char*)pData - FBXSDK_MEMORY_ALIGNMENT, pSize + FBXSDK_MEMORY_ALIGNMENT);
+                if (p == nullptr) {
+                    return p;
+                }
 				memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
                 return p + FBXSDK_MEMORY_ALIGNMENT;
             }
             else
             {   // Mismatch
                 char *p = (char*)realloc((char*)pData, pSize + FBXSDK_MEMORY_ALIGNMENT);
+                if (p == nullptr) {
+                    return p;
+                }
 				memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
                 return p + FBXSDK_MEMORY_ALIGNMENT;
             }
@@ -120,6 +132,9 @@ public:
         else
         {
             char *p = (char*)realloc(NULL, pSize + FBXSDK_MEMORY_ALIGNMENT);
+            if (p == nullptr) {
+                return p;
+            }
 			memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
             return p + FBXSDK_MEMORY_ALIGNMENT;
         }
@@ -419,8 +434,14 @@ void DisplayCallback()
         // This function is only called in the first display callback
         // to make sure that the application window is opened and a 
         // status message is displayed before.
-		if (!gSceneContext->LoadFile())
-			exit(1);
+        try {
+            if (!gSceneContext->LoadFile())
+                exit(1);
+        }
+        catch (const std::bad_alloc) {
+            FBXSDK_printf("Unable to satisfy request for memory.\n");
+            exit(1);
+        }
 
         CreateMenus();
 
