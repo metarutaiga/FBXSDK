@@ -20,6 +20,8 @@
 
 void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode, bool isSwitcher = false);
 void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode, bool isSwitcher = false);
+void DisplayAnimation(FbxAudioLayer* pAudioLayer, bool isSwitcher = false);
+
 void DisplayChannels(FbxNode* pNode, FbxAnimLayer* pAnimLayer, void (*DisplayCurve) (FbxAnimCurve* pCurve), void (*DisplayListCurve) (FbxAnimCurve* pCurve, FbxProperty* pProperty), bool isSwitcher);
 void DisplayCurveKeys(FbxAnimCurve* pCurve);
 void DisplayListCurveKeys(FbxAnimCurve* pCurve, FbxProperty* pProperty);
@@ -33,10 +35,9 @@ void DisplayAnimation(FbxScene* pScene)
 
         FbxString lOutputString = "Animation Stack Name: ";
         lOutputString += lAnimStack->GetName();
-        lOutputString += "\n\n";
+        lOutputString += "\n";
         FBXSDK_printf(lOutputString);
 
-        DisplayAnimation(lAnimStack, pScene->GetRootNode(), true);
         DisplayAnimation(lAnimStack, pScene->GetRootNode());
     }
 }
@@ -45,11 +46,32 @@ void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode, bool isSwitcher)
 {
     int l;
     int nbAnimLayers = pAnimStack->GetMemberCount<FbxAnimLayer>();
+	int nbAudioLayers = pAnimStack->GetMemberCount<FbxAudioLayer>();
     FbxString lOutputString;
 
-    lOutputString = "Animation stack contains ";
-    lOutputString += nbAnimLayers;
-    lOutputString += " Animation Layer(s)\n";
+    lOutputString = "   contains ";
+	if (nbAnimLayers==0 && nbAudioLayers==0)
+		lOutputString += "no layers";
+
+	if (nbAnimLayers)
+	{
+		lOutputString += nbAnimLayers;
+		lOutputString += " Animation Layer";
+		if (nbAnimLayers > 1)
+			lOutputString += "s";
+	}
+
+	if (nbAudioLayers)
+	{
+		if (nbAnimLayers)
+			lOutputString += " and ";
+
+		lOutputString += nbAudioLayers;
+		lOutputString += " Audio Layer";
+		if (nbAudioLayers > 1)
+			lOutputString += "s";
+	}
+	lOutputString += "\n\n";
     FBXSDK_printf(lOutputString);
 
     for (l = 0; l < nbAnimLayers; l++)
@@ -63,6 +85,46 @@ void DisplayAnimation(FbxAnimStack* pAnimStack, FbxNode* pNode, bool isSwitcher)
 
         DisplayAnimation(lAnimLayer, pNode, isSwitcher);
     }
+
+	for (l = 0; l < nbAudioLayers; l++)
+	{
+		FbxAudioLayer* lAudioLayer = pAnimStack->GetMember<FbxAudioLayer>(l);
+
+		lOutputString = "AudioLayer ";
+		lOutputString += l;
+		lOutputString += "\n";
+		FBXSDK_printf(lOutputString);
+
+		DisplayAnimation(lAudioLayer, isSwitcher);
+		FBXSDK_printf("\n");
+	}
+}
+
+void DisplayAnimation(FbxAudioLayer* pAudioLayer, bool )
+{
+    int lClipCount;
+    FbxString lOutputString;
+
+	lClipCount = pAudioLayer->GetMemberCount<FbxAudio>();
+	
+    lOutputString = "     Name: ";
+    lOutputString += pAudioLayer->GetName();
+	lOutputString += "\n\n";
+	lOutputString += "     Nb Audio Clips: ";
+	lOutputString += lClipCount;
+    lOutputString += "\n";
+    FBXSDK_printf(lOutputString);
+
+	for (int i = 0; i < lClipCount; i++)
+	{
+		FbxAudio* lClip = pAudioLayer->GetMember<FbxAudio>(i);
+		lOutputString = "        Clip[";
+		lOutputString += i;
+		lOutputString += "]:\t";
+		lOutputString += lClip->GetName();
+		lOutputString += "\n";
+		FBXSDK_printf(lOutputString);
+	}
 }
 
 void DisplayAnimation(FbxAnimLayer* pAnimLayer, FbxNode* pNode, bool isSwitcher)

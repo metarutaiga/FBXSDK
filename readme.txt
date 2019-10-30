@@ -2,8 +2,8 @@
 
                                      README
 
-               Autodesk FBX SDK 2018.0, April 2017
-               --------------------------------------------------
+                             Autodesk FBX SDK 2018.1
+                             -----------------------
 
 
 Welcome to the FBX SDK readme! This document includes the latest changes since
@@ -36,6 +36,9 @@ TABLE OF CONTENTS
 -------------------------------------
 
 1.1 Improvements and New Features
+
+    * [FBXX-1258] Add Audio transport support. 
+    * [FBXX-1279] Added more options to the FbxSceneCheck utility class.
     
 1.2 Changes and Deprecated Features
 
@@ -45,17 +48,22 @@ TABLE OF CONTENTS
 
 2.1 Fixed Issues
 
+    * [FBXX-1384] Regression issue introduced by the Audio transport feature.
+    * [FBXX-1386] Copying FbxSkin object into another does not copy all data.    
+
+2.2 Known Issues
+
+
+3. RELEASE NOTES FROM PREVIOUS RELEASES
+---------------------------------------
+2018.0
+
     * [FBXX-1303] Crash when deleting NURBS created with FbxGeometryConverter::ConvertPatchToNurbsSurface()
     * [FBXX-1280] Invalid pointer access
     * [FBXX-1257] Invalid value for a malloc
     * [FBXX-1143] Collada reader
     * [FBXX-1140] Crash in FbxGeometryConverter::Triangulate with huge poly count (60 millions +)
     
-2.2 Known Issues
-
-
-3. RELEASE NOTES FROM PREVIOUS RELEASES
----------------------------------------
 2017.1.1
 
     Fixed some global HDF5 symbols that were missed during the previous namespacing. These
@@ -1769,7 +1777,7 @@ Autodesk and FBX are registered trademarks or trademarks of Autodesk, Inc., in
 the USA and/or other countries. All other brand names, product names, or trade-
 marks belong to their respective holders.
 
-                       Copyright (C) 2016 Autodesk, Inc.
+                       Copyright (C) 2017 Autodesk, Inc.
                               All Rights Reserved
 
 ================================================================================
