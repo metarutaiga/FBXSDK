@@ -20,7 +20,7 @@ void DisplayLight(FbxNode* pNode)
     DisplayString("Light Name: ", (char *) pNode->GetName());
     DisplayMetaDataConnections(lLight);
 
-    const char* lLightTypes[] = { "Point", "Directional", "Spot" };
+    const char* lLightTypes[] = { "Point", "Directional", "Spot", "Area", "Volume" };
 
     DisplayString("    Type: ", lLightTypes[lLight->LightType.Get()]);
     DisplayBool("    Cast Light: ", lLight->CastLight.Get());

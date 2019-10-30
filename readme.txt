@@ -2,7 +2,7 @@
 
                                      README
 
-               Autodesk FBX SDK 2017.1, October 2016
+               Autodesk FBX SDK 2018.0, April 2017
                --------------------------------------------------
 
 
@@ -36,7 +36,7 @@ TABLE OF CONTENTS
 -------------------------------------
 
 1.1 Improvements and New Features
-       
+    
 1.2 Changes and Deprecated Features
 
         
@@ -45,17 +45,32 @@ TABLE OF CONTENTS
 
 2.1 Fixed Issues
 
-    * [FBXX-1225] Security Improvements.
-    * Alembic code has been fully namespaced to avoid duplicated function conflicts when applications
-      link the FBX SDK and other Alembic libraries.
+    * [FBXX-1303] Crash when deleting NURBS created with FbxGeometryConverter::ConvertPatchToNurbsSurface()
+    * [FBXX-1280] Invalid pointer access
+    * [FBXX-1257] Invalid value for a malloc
+    * [FBXX-1143] Collada reader
+    * [FBXX-1140] Crash in FbxGeometryConverter::Triangulate with huge poly count (60 millions +)
     
 2.2 Known Issues
 
 
 3. RELEASE NOTES FROM PREVIOUS RELEASES
 ---------------------------------------
+2017.1.1
+
+    Fixed some global HDF5 symbols that were missed during the previous namespacing. These
+    symbols only caused an issue on Linux builds when an application links with both the
+    FBX SDK and its own version of Alembic/HDF5 libraries static libraries.
+
+2017.1
+
+    * [FBXX-1225] Security Improvements.
+    * Alembic code has been fully namespaced to avoid duplicated function conflicts when applications
+      link the FBX SDK and other Alembic libraries.
+
 2017.0.2
-   * [FBXX-1207] FBX SDK library for VS2015 builds with the Target Platform Version 10.0.10586.0
+
+    * [FBXX-1207] FBX SDK library for VS2015 builds with the Target Platform Version 10.0.10586.0
 
 2017.0.1
 

@@ -57,16 +57,20 @@ void DisplayTextureInfo(FbxTexture* pTexture, int pBlendMode)
         DisplayString("            Planar Mapping Normal: ", lPlanarMappingNormals[pTexture->GetPlanarMappingNormal()]);
     }
 
-    const char* lBlendModes[]   = { "Translucent", "Add", "Modulate", "Modulate2" };   
+    const char* lBlendModes[]   = { "Translucent", "Additive", "Modulate", "Modulate2", "Over", "Normal", "Dissolve", "Darken", "ColorBurn", "LinearBurn",
+                                    "DarkerColor", "Lighten", "Screen", "ColorDodge", "LinearDodge", "LighterColor", "SoftLight", "HardLight", "VividLight",
+                                    "LinearLight", "PinLight", "HardMix", "Difference", "Exclusion", "Substract", "Divide", "Hue", "Saturation", "Color",
+                                    "Luminosity", "Overlay"};   
+    
     if(pBlendMode >= 0)
         DisplayString("            Blend Mode: ", lBlendModes[pBlendMode]);
     DisplayDouble("            Alpha: ", pTexture->GetDefaultAlpha());
 
-	if (lFileTexture)
-	{
-		const char* lMaterialUses[] = { "Model Material", "Default Material" };
-	    DisplayString("            Material Use: ", lMaterialUses[lFileTexture->GetMaterialUse()]);
-	}
+    if (lFileTexture)
+    {
+        const char* lMaterialUses[] = { "Model Material", "Default Material" };
+        DisplayString("            Material Use: ", lMaterialUses[lFileTexture->GetMaterialUse()]);
+    }
 
     const char* pTextureUses[] = { "Standard", "Shadow Map", "Light Map", 
         "Spherical Reflexion Map", "Sphere Reflexion Map", "Bump Normal Map" };
