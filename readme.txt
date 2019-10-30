@@ -2,7 +2,7 @@
 
                                      README
 
-               Autodesk FBX SDK 2017.0.1, April 14th 2016
+               Autodesk FBX SDK 2017.1, October 2016
                --------------------------------------------------
 
 
@@ -36,16 +36,36 @@ TABLE OF CONTENTS
 -------------------------------------
 
 1.1 Improvements and New Features
-    
-    [FBXX-999] Added the new eRelativeRepetition flag to the animation curves extrapolation flags.
-    
-    [FBXX-1023] Refactored FbxUtils to minimize possible buffer under/overflows.
-    
-    [FBXX-1031] Added new roll bones to the FbxCharacter definition.
-
-    
+       
 1.2 Changes and Deprecated Features
 
+        
+2. FIXED AND KNOWN ISSUES
+-------------------------
+
+2.1 Fixed Issues
+
+    * [FBXX-1225] Security Improvements.
+    * Alembic code has been fully namespaced to avoid duplicated function conflicts when applications
+      link the FBX SDK and other Alembic libraries.
+    
+2.2 Known Issues
+
+
+3. RELEASE NOTES FROM PREVIOUS RELEASES
+---------------------------------------
+2017.0.2
+   * [FBXX-1207] FBX SDK library for VS2015 builds with the Target Platform Version 10.0.10586.0
+
+2017.0.1
+
+    * [FBXX-999] Added the new eRelativeRepetition flag to the animation curves extrapolation flags.    
+    * [FBXX-1023] Refactored FbxUtils to minimize possible buffer under/overflows.
+    * [FBXX-1031] Added new roll bones to the FbxCharacter definition.
+    * [FBXX-1066] The SDK version is still reported as an "Alpha" release
+    * [FBXX-1019] Loading a .3ds file with a texture is very slow when using Python bindings
+    * [FBXX-1026] Crash when triangulating NURBS surfaces
+    * [FBXX-1051] In some cases shape normals are written beyond array boundaries
     Removed deprecated functions
     
         FbxObject::Is(const FbxClassId& pClassId)
@@ -66,25 +86,6 @@ TABLE OF CONTENTS
         FbxProperty::GetDstObjectCount(const FbxClassId& pClassId)
         FbxProperty::GetDstObject(const FbxClassId& pClassId, const int pIndex=0)
         FbxProperty::FindDstObject(const FbxClassId& pClassId, const char* pName, const int pStartIndex=0)
-        
-2. FIXED AND KNOWN ISSUES
--------------------------
-
-2.1 Fixed Issues
-
-    [FBXX-1066] The SDK version is still reported as an "Alpha" release
-    
-    [FBXX-1019] Loading a .3ds file with a texture is very slow when using Python bindings
-
-    [FBXX-1026] Crash when triangulating NURBS surfaces
-    
-    [FBXX-1051] In some cases shape normals are written beyond array boundaries
-    
-2.2 Known Issues
-
-
-3. RELEASE NOTES FROM PREVIOUS RELEASES
----------------------------------------
 
 2016.1.2
 
