@@ -489,62 +489,82 @@ bool SceneContext::LoadFile()
     {
         if (mImporter->Import(mScene) == true)
         {
-            // Set the scene status flag to refresh 
-            // the scene in the first timer callback.
-            mStatus = MUST_BE_REFRESHED;
+			// Check the scene integrity!
+			FbxStatus status;
+			FbxArray< FbxString*> details;
+			FbxSceneCheckUtility sceneCheck(FbxCast<FbxScene>(mScene), &status, &details);
+			lResult = sceneCheck.Validate(FbxSceneCheckUtility::eCkeckData);
+			if (lResult == false)
+			{
+				if (details.GetCount())
+				{
+					mStatus = UNLOADED;
+					FBXSDK_printf("Scene integrity verification failed with the following errors:\n");
 
-            // Convert Axis System to what is used in this example, if needed
-            FbxAxisSystem SceneAxisSystem = mScene->GetGlobalSettings().GetAxisSystem();
-            FbxAxisSystem OurAxisSystem(FbxAxisSystem::eYAxis, FbxAxisSystem::eParityOdd, FbxAxisSystem::eRightHanded);
-            if( SceneAxisSystem != OurAxisSystem )
-            {
-                OurAxisSystem.ConvertScene(mScene);
-            }
+					for (int i = 0; i < details.GetCount(); i++)
+						FBXSDK_printf("   %s\n", details[i]->Buffer());
 
-            // Convert Unit System to what is used in this example, if needed
-            FbxSystemUnit SceneSystemUnit = mScene->GetGlobalSettings().GetSystemUnit();
-            if( SceneSystemUnit.GetScaleFactor() != 1.0 )
-            {
-                //The unit in this example is centimeter.
-                FbxSystemUnit::cm.ConvertScene( mScene);
-            }
+					FbxArrayDelete<FbxString*>(details);
+				}
+			}
 
-            // Get the list of all the animation stack.
-            mScene->FillAnimStackNameArray(mAnimStackNameArray);
+			if (lResult)
+			{
+				// Set the scene status flag to refresh 
+				// the scene in the first timer callback.
+				mStatus = MUST_BE_REFRESHED;
 
-            // Get the list of all the cameras in the scene.
-            FillCameraArray(mScene, mCameraArray);
+				// Convert Axis System to what is used in this example, if needed
+				FbxAxisSystem SceneAxisSystem = mScene->GetGlobalSettings().GetAxisSystem();
+				FbxAxisSystem OurAxisSystem(FbxAxisSystem::eYAxis, FbxAxisSystem::eParityOdd, FbxAxisSystem::eRightHanded);
+				if (SceneAxisSystem != OurAxisSystem)
+				{
+					OurAxisSystem.ConvertScene(mScene);
+				}
 
-            // Convert mesh, NURBS and patch into triangle mesh
-			FbxGeometryConverter lGeomConverter(mSdkManager);
-			lGeomConverter.Triangulate(mScene, /*replace*/true);
+				// Convert Unit System to what is used in this example, if needed
+				FbxSystemUnit SceneSystemUnit = mScene->GetGlobalSettings().GetSystemUnit();
+				if (SceneSystemUnit.GetScaleFactor() != 1.0)
+				{
+					//The unit in this example is centimeter.
+					FbxSystemUnit::cm.ConvertScene(mScene);
+				}
 
-            // Bake the scene for one frame
-            LoadCacheRecursive(mScene, mCurrentAnimLayer, mFileName, mSupportVBO);
+				// Get the list of all the animation stack.
+				mScene->FillAnimStackNameArray(mAnimStackNameArray);
 
-            // Convert any .PC2 point cache data into the .MC format for 
-            // vertex cache deformer playback.
-            PreparePointCacheData(mScene, mCache_Start, mCache_Stop);
+				// Get the list of all the cameras in the scene.
+				FillCameraArray(mScene, mCameraArray);
 
-            // Get the list of pose in the scene
-            FillPoseArray(mScene, mPoseArray);
+				// Convert mesh, NURBS and patch into triangle mesh
+				FbxGeometryConverter lGeomConverter(mSdkManager);
+				lGeomConverter.Triangulate(mScene, /*replace*/true);
 
-            // Initialize the window message.
-            mWindowMessage = "File ";
-            mWindowMessage += mFileName;
-            mWindowMessage += "\nClick on the right mouse button to enter menu.";
-            mWindowMessage += "\nEsc to exit.";
+				// Bake the scene for one frame
+				LoadCacheRecursive(mScene, mCurrentAnimLayer, mFileName, mSupportVBO);
 
-            // Initialize the frame period.
-            mFrameTime.SetTime(0, 0, 0, 1, 0, mScene->GetGlobalSettings().GetTimeMode());
+				// Convert any .PC2 point cache data into the .MC format for 
+				// vertex cache deformer playback.
+				PreparePointCacheData(mScene, mCache_Start, mCache_Stop);
 
-            // Print the keyboard shortcuts.
-            FBXSDK_printf("Play/Pause Animation: Space Bar.\n");
-            FBXSDK_printf("Camera Rotate: Left Mouse Button.\n");
-            FBXSDK_printf("Camera Pan: Left Mouse Button + Middle Mouse Button.\n");
-            FBXSDK_printf("Camera Zoom: Middle Mouse Button.\n");
+				// Get the list of pose in the scene
+				FillPoseArray(mScene, mPoseArray);
 
-            lResult = true;
+				// Initialize the window message.
+				mWindowMessage = "File ";
+				mWindowMessage += mFileName;
+				mWindowMessage += "\nClick on the right mouse button to enter menu.";
+				mWindowMessage += "\nEsc to exit.";
+
+				// Initialize the frame period.
+				mFrameTime.SetTime(0, 0, 0, 1, 0, mScene->GetGlobalSettings().GetTimeMode());
+
+				// Print the keyboard shortcuts.
+				FBXSDK_printf("Play/Pause Animation: Space Bar.\n");
+				FBXSDK_printf("Camera Rotate: Left Mouse Button.\n");
+				FBXSDK_printf("Camera Pan: Left Mouse Button + Middle Mouse Button.\n");
+				FBXSDK_printf("Camera Zoom: Middle Mouse Button.\n");
+			}
         }
         else
         {

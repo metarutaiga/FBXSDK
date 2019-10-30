@@ -117,7 +117,7 @@ bool LoadScene(FbxManager* pManager, FbxDocument* pScene, const char* pFilename)
     int lFileMajor, lFileMinor, lFileRevision;
     int lSDKMajor,  lSDKMinor,  lSDKRevision;
     //int lFileFormat = -1;
-    int i, lAnimStackCount;
+    int lAnimStackCount;
     bool lStatus;
     char lPassword[1024];
 
@@ -163,7 +163,7 @@ bool LoadScene(FbxManager* pManager, FbxDocument* pScene, const char* pFilename)
         FBXSDK_printf("    Current Animation Stack: \"%s\"\n", lImporter->GetActiveAnimStackName().Buffer());
         FBXSDK_printf("\n");
 
-        for(i = 0; i < lAnimStackCount; i++)
+        for(int i = 0; i < lAnimStackCount; i++)
         {
             FbxTakeInfo* lTakeInfo = lImporter->GetTakeInfo(i);
 
@@ -194,6 +194,25 @@ bool LoadScene(FbxManager* pManager, FbxDocument* pScene, const char* pFilename)
 
     // Import the scene.
     lStatus = lImporter->Import(pScene);
+	if (lStatus == true)
+	{
+		// Check the scene integrity!
+		FbxStatus status;
+		FbxArray< FbxString*> details;
+		FbxSceneCheckUtility sceneCheck(FbxCast<FbxScene>(pScene), &status, &details);
+		lStatus = sceneCheck.Validate(FbxSceneCheckUtility::eCkeckData);
+		if (lStatus == false)
+		{
+			if (details.GetCount())
+			{
+				FBXSDK_printf("Scene integrity verification failed with the following errors:\n");
+				for (int i = 0; i < details.GetCount(); i++)
+					FBXSDK_printf("   %s\n", details[i]->Buffer());
+
+				FbxArrayDelete<FbxString*>(details);
+			}
+		}
+	}
 
     if(lStatus == false && lImporter->GetStatus().GetCode() == FbxStatus::ePasswordError)
     {

@@ -164,7 +164,7 @@ bool LoadScene(
 
         UI_Printf("    Number of animation stacks: %d", lAnimStackCount);
         UI_Printf("    Active animation stack: \"%s\"",
-            lImporter->GetActiveAnimStackName());
+            lImporter->GetActiveAnimStackName().Buffer());
 
         for(i = 0; i < lAnimStackCount; i++)
         {

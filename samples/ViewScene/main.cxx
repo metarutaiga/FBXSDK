@@ -419,7 +419,8 @@ void DisplayCallback()
         // This function is only called in the first display callback
         // to make sure that the application window is opened and a 
         // status message is displayed before.
-        gSceneContext->LoadFile();
+		if (!gSceneContext->LoadFile())
+			exit(1);
 
         CreateMenus();
 

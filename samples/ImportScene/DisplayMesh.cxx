@@ -121,8 +121,13 @@ void DisplayPolygons(FbxMesh* pMesh)
 		for (j = 0; j < lPolygonSize; j++)
 		{
 			int lControlPointIndex = pMesh->GetPolygonVertex(i, j);
-
-			Display3DVector("            Coordinates: ", lControlPoints[lControlPointIndex]);
+			if (lControlPointIndex < 0)
+			{
+				DisplayString("            Coordinates: Invalid index found!");
+				continue;
+			}
+			else
+				Display3DVector("            Coordinates: ", lControlPoints[lControlPointIndex]);
 
 			for (l = 0; l < pMesh->GetElementVertexColorCount(); l++)
 			{

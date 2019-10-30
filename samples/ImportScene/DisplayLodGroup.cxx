@@ -34,12 +34,16 @@ void DisplayLodGroup(FbxNode* pNode)
         DisplayDouble("        Max Distance: ", lLodGroupAttr->MaxDistance.Get());
     }
     DisplayBool("    Is World Space: ", lLodGroupAttr->WorldSpace.Get());
+	DisplayBool("    Thresholds used as Percentage: ", lLodGroupAttr->ThresholdsUsedAsPercentage.Get());
 
     DisplayString("    Thresholds ");
     for (int i = 0; i < lLodGroupAttr->GetNumThresholds(); i++)
     {
         FbxDistance lThreshVal;
-        if (lLodGroupAttr->GetThreshold(i, lThreshVal))
+		bool res = lLodGroupAttr->GetThreshold(i, lThreshVal);
+        if (res || (!res && lLodGroupAttr->ThresholdsUsedAsPercentage.Get())) 
+			// when thresholds are used as percentage, the GetThreshold returns false
+			// and we would need to make sure that the value is not bogus
             DisplayDouble("        ", lThreshVal.value());
     }
 

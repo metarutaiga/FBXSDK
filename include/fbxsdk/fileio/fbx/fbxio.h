@@ -117,7 +117,7 @@ class FbxXRefManager;
 	\li Version 7500
 	Added support for large files (>2GB). NOTE: This breaks forward compatibility (i.e. older products won't be able to open these files!!)
    
- */
+   */
 
 //File version numbers
 #define FBX_FILE_VERSION_2000		2000	//FBX 2.0
@@ -1712,7 +1712,7 @@ private:
     bool ProjectClearSection();
     bool ProjectOpenSection(int pSection);
     bool BinaryReadSectionHeader();
-    FbxInt64 BinaryReadSectionFooter(char* pSourceCheck);
+    FbxInt64 BinaryReadSectionFooter(unsigned char* pSourceCheck);
     bool BinaryReadExtensionCode(FbxInt64 pFollowingSectionStart, FbxInt64& pSectionStart, FbxUInt32& pSectionVersion);
     void BinaryReadSectionPassword();
 
@@ -1722,11 +1722,11 @@ private:
 
     FbxString GetCreationTime() const;
     void SetCreationTime(FbxString pCreationTime);
-    void CreateSourceCheck(char* lSourceCheck);
-    bool TestSourceCheck(char* pSourceCheck, char* pSourceCompany);
+    void CreateSourceCheck(unsigned char* lSourceCheck);
+    bool TestSourceCheck(unsigned char* pSourceCheck, unsigned char* pSourceCompany);
     FbxString GetMangledCreationTime();
-    void EncryptSourceCheck(char* pSourceCheck, char* pEncryptionData);
-    void DecryptSourceCheck(char* pSourceCheck, const char* pEncryptionData);
+    void EncryptSourceCheck(unsigned char* pSourceCheck, unsigned char* pEncryptionData);
+    void DecryptSourceCheck(unsigned char* pSourceCheck, const unsigned char* pEncryptionData);
 
     void EncryptPasswordV1(FbxString pOriginalPassword, FbxString &pEncryptedPassword);
     void DecryptPasswordV1(FbxString pEncryptedPassword, FbxString &pDecryptedPassword);

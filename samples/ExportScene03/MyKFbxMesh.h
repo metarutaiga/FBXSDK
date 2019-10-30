@@ -38,11 +38,11 @@ public:
 	} ePROPERTY;
 
 	//Important to implement
-	const char*	GetTypeName() const;
+    const char*	GetTypeName() const override;
 	FbxProperty GetProperty(int pId);
 
 protected:
-	virtual void ConstructProperties(bool pForceSet);
+    virtual void ConstructProperties(bool pForceSet) override;
 	
 private:
 	int mExtraOption;
@@ -53,11 +53,11 @@ class MyFbxObject : public FbxObject
 	FBXSDK_OBJECT_DECLARE(MyFbxObject, FbxObject);
 
 public:
-	virtual const char* GetTypeName() const;
+    virtual const char* GetTypeName() const override;
 
 protected:
-	virtual void Destruct(bool pRecursive);
-	virtual void ConstructProperties(bool pForceSet);
+    virtual void Destruct(bool pRecursive) override;
+    virtual void ConstructProperties(bool pForceSet) override;
 };
 
 #endif

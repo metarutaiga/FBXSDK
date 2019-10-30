@@ -435,7 +435,7 @@ public:
 private:
 	inline T* Allocate(const int pCapacity)
 	{
-		return (T*)FbxRealloc(mArray, pCapacity * sizeof(T));
+		return (T*)FbxRealloc(mArray, FbxAllocSize(pCapacity, sizeof(T)));
 	}
 
 	int	mSize;

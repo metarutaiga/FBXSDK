@@ -99,6 +99,7 @@ FBXSDK_DLL FbxFreeProc FbxGetDefaultFreeHandler();
 ** WARNING! Anything beyond these lines is for internal use, may not be documented and is subject to change without notice! **
 *****************************************************************************************************************************/
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
+	FBXSDK_DLL size_t FbxAllocSize(size_t pNbItems, size_t pItemSize);
 	FBXSDK_DLL void* FbxMalloc(size_t pSize);
 	FBXSDK_DLL void* FbxCalloc(size_t pCount, size_t pSize);
 	FBXSDK_DLL void* FbxRealloc(void* pData, size_t pSize);

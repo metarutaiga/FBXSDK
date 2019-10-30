@@ -37,6 +37,35 @@ TABLE OF CONTENTS
 
 1.1 Improvements and New Features
 
+    * Re-enabled the Alembic caches support for Ogawa archives. HDF5 is not supported anymore inside the FBX SDK.
+      Note that all the WindowStore and IOs architectures do not provide Alembic support.
+
+1.2 Changes and Deprecated Features
+
+    * Consider animation corrupted if keys times are not ordered by increase value
+      (i.e: T(i) must be less or equal to T(i+1))
+
+
+2. FIXED AND KNOWN ISSUES
+-------------------------
+
+2.1 Fixed Issues
+
+    [FBXX-1499] Fix potential crash when writing Acclaim file.
+    [FBXX-1483] Security Improvements.
+    [FBXX-1481] Fix potential crash in FbxGeometryConverter::ComputeEdgeSmoothingFromNormals
+    [FBXX-1480] 3DS Reader returns a false positive error.
+    [FBXX-1479] FBXCollada improve write time of mesh data.
+    [FBXX-1476] FbxIO::GetTmpProjectName and FbxIO::SwapFromTmpProject bad execution.
+    [FBXX-1474] Password protected files status is overwritten.
+    [FBXX-1433] Update Alembic to version 1.7.5.
+    
+2.2 Known Issues
+
+
+3. RELEASE NOTES FROM PREVIOUS RELEASES
+---------------------------------------
+2019.1
     * Added the FBX standardized renaming strategy to the Collada file read/write. This renaming
       strategy will replace every character in the object names/ids, which does not comply with
       the XML NCName scheme, with a string in the form "FBXASC###" were ### is the decimal value
@@ -44,23 +73,19 @@ TABLE OF CONTENTS
     
     * Added extra parameter to GenerateTangentsData() family functions to skip testing for the tangent flip
 
-1.2 Changes and Deprecated Features
-
     * moved the static functions FbxRenamingStrategy::NoPrefixName to FbxRenamingStrategyUtils::NoPrefixName
       and it now returns an FbxString instead of a char*
-        
-2. FIXED AND KNOWN ISSUES
--------------------------
-
-2.1 Fixed Issues
+    
+    * Starting with this version of the FBX SDK your programs must explicitly link with the zlib and 
+      libxml2 libraries. On Linux and MacOS, these libraries should already be part of the system. If 
+      not, you must install them.
+    
+    * disabled Alembic support
+    
+    [FBXX-1438] Fixed EvaluateGlobalBoundingBoxMinMaxCenter so it correctly returns the 3D volume bounding box.
     [FBXX-1417] Fixed Wgettimeofday and Wgetlogin already define linker error.
     [FBXX-1383] Fixed stack overflow when importing Collada files defining external references.
-
-2.2 Known Issues
-
-
-3. RELEASE NOTES FROM PREVIOUS RELEASES
----------------------------------------
+    
 2018.1.1
     * [FBXX-1384] Regression issue introduced by the Audio transport feature.
     * [FBXX-1386] Copying FbxSkin object into another does not copy all data.

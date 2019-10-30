@@ -286,7 +286,13 @@ void DrawMesh(FbxNode* pNode, FbxTime& pTime, FbxAnimLayer* pAnimLayer,
             glBegin(GL_LINE_LOOP);
             for (int lVerticeIndex = 0; lVerticeIndex < lVerticeCount; lVerticeIndex++)
             {
-                glVertex3dv((GLdouble *)lVertexArray[lMesh->GetPolygonVertex(lPolygonIndex, lVerticeIndex)]);
+				int index = lMesh->GetPolygonVertex(lPolygonIndex, lVerticeIndex);
+				if (index < 0)
+				{
+					FBX_ASSERT_NOW("Invalid index!");
+					continue;
+				}
+                glVertex3dv((GLdouble *)lVertexArray[index]);
             }
             glEnd();
         }

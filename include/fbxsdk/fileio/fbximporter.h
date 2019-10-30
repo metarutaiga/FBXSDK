@@ -107,7 +107,7 @@ public:
       *                           using the GetStatus() function.
       * \remarks                  You do not need to give the pFileFormat if the suffix of pFileName is recognized
 	  */
-	virtual bool Initialize(const char* pFileName, int pFileFormat=-1, FbxIOSettings * pIOSettings=NULL);
+    bool Initialize(const char* pFileName, int pFileFormat=-1, FbxIOSettings * pIOSettings=NULL) override;
 
 	/** Initialize object.
 	  *	\param pStream            stream to access.
@@ -307,8 +307,8 @@ public:
 	bool GetFrameRate(FbxTime::EMode &pTimeMode);
 
 protected:
-	virtual void Construct(const FbxObject* pFrom);
-	virtual void Destruct(bool pRecursive);
+	void Construct(const FbxObject* pFrom) override;
+	void Destruct(bool pRecursive) override;
 	virtual void SetOrCreateIOSettings(FbxIOSettings* pIOSettings, bool pAllowNULL);
 
 	void Reset();
@@ -320,6 +320,7 @@ protected:
     bool IsNativeExtension ();
 
 	//These two internal functions are only used to read old character pose data
+public:
 	bool Initialize(FbxFile* pFile, const int pFileFormat=-1, FbxIOSettings* pIOSettings=NULL);
 	bool Import(FbxDocument* pDocument, FbxIO* pFbxObject);
 

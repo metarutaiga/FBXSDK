@@ -26,10 +26,10 @@
 #include "../Common/Common.h"
 
 //input file path
-static const char* sInputFile = "Sadface.FBX";
+static const char* sInputFile = "sadface.fbx";
 
 //output file path
-static const char* sOutputFile = "Happyface.FBX";
+static const char* sOutputFile = "happyface.fbx";
 
 
 //We load the all the UV information from the mesh

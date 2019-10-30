@@ -288,38 +288,42 @@ bool VBOMesh::Initialize(const FbxMesh *pMesh)
         for (int lVerticeIndex = 0; lVerticeIndex < TRIANGLE_VERTEX_COUNT; ++lVerticeIndex)
         {
             const int lControlPointIndex = pMesh->GetPolygonVertex(lPolygonIndex, lVerticeIndex);
+			// If the lControlPointIndex is -1, we probably have a corrupted mesh data. At this point,
+			// it is not guaranteed that the cache will work as expected.
+			if (lControlPointIndex >= 0)
+			{
+				if (mAllByControlPoint)
+				{
+					lIndices[lIndexOffset + lVerticeIndex] = static_cast<unsigned int>(lControlPointIndex);
+				}
+				// Populate the array with vertex attribute, if by polygon vertex.
+				else
+				{
+					lIndices[lIndexOffset + lVerticeIndex] = static_cast<unsigned int>(lVertexCount);
 
-            if (mAllByControlPoint)
-            {
-                lIndices[lIndexOffset + lVerticeIndex] = static_cast<unsigned int>(lControlPointIndex);
-            }
-            // Populate the array with vertex attribute, if by polygon vertex.
-            else
-            {
-                lIndices[lIndexOffset + lVerticeIndex] = static_cast<unsigned int>(lVertexCount);
+					lCurrentVertex = lControlPoints[lControlPointIndex];
+					lVertices[lVertexCount * VERTEX_STRIDE] = static_cast<float>(lCurrentVertex[0]);
+					lVertices[lVertexCount * VERTEX_STRIDE + 1] = static_cast<float>(lCurrentVertex[1]);
+					lVertices[lVertexCount * VERTEX_STRIDE + 2] = static_cast<float>(lCurrentVertex[2]);
+					lVertices[lVertexCount * VERTEX_STRIDE + 3] = 1;
 
-                lCurrentVertex = lControlPoints[lControlPointIndex];
-                lVertices[lVertexCount * VERTEX_STRIDE] = static_cast<float>(lCurrentVertex[0]);
-                lVertices[lVertexCount * VERTEX_STRIDE + 1] = static_cast<float>(lCurrentVertex[1]);
-                lVertices[lVertexCount * VERTEX_STRIDE + 2] = static_cast<float>(lCurrentVertex[2]);
-                lVertices[lVertexCount * VERTEX_STRIDE + 3] = 1;
+					if (mHasNormal)
+					{
+						pMesh->GetPolygonVertexNormal(lPolygonIndex, lVerticeIndex, lCurrentNormal);
+						lNormals[lVertexCount * NORMAL_STRIDE] = static_cast<float>(lCurrentNormal[0]);
+						lNormals[lVertexCount * NORMAL_STRIDE + 1] = static_cast<float>(lCurrentNormal[1]);
+						lNormals[lVertexCount * NORMAL_STRIDE + 2] = static_cast<float>(lCurrentNormal[2]);
+					}
 
-                if (mHasNormal)
-                {
-                    pMesh->GetPolygonVertexNormal(lPolygonIndex, lVerticeIndex, lCurrentNormal);
-                    lNormals[lVertexCount * NORMAL_STRIDE] = static_cast<float>(lCurrentNormal[0]);
-                    lNormals[lVertexCount * NORMAL_STRIDE + 1] = static_cast<float>(lCurrentNormal[1]);
-                    lNormals[lVertexCount * NORMAL_STRIDE + 2] = static_cast<float>(lCurrentNormal[2]);
-                }
-
-                if (mHasUV)
-                {
-                    bool lUnmappedUV;
-                    pMesh->GetPolygonVertexUV(lPolygonIndex, lVerticeIndex, lUVName, lCurrentUV, lUnmappedUV);
-                    lUVs[lVertexCount * UV_STRIDE] = static_cast<float>(lCurrentUV[0]);
-                    lUVs[lVertexCount * UV_STRIDE + 1] = static_cast<float>(lCurrentUV[1]);
-                }
-            }
+					if (mHasUV)
+					{
+						bool lUnmappedUV;
+						pMesh->GetPolygonVertexUV(lPolygonIndex, lVerticeIndex, lUVName, lCurrentUV, lUnmappedUV);
+						lUVs[lVertexCount * UV_STRIDE] = static_cast<float>(lCurrentUV[0]);
+						lUVs[lVertexCount * UV_STRIDE + 1] = static_cast<float>(lCurrentUV[1]);
+					}
+				}
+			}
             ++lVertexCount;
         }
         mSubMeshes[lMaterialIndex]->TriangleCount += 1;
@@ -383,10 +387,15 @@ void VBOMesh::UpdateVertexPosition(const FbxMesh * pMesh, const FbxVector4 * pVe
             for (int lVerticeIndex = 0; lVerticeIndex < TRIANGLE_VERTEX_COUNT; ++lVerticeIndex)
             {
                 const int lControlPointIndex = pMesh->GetPolygonVertex(lPolygonIndex, lVerticeIndex);
-                lVertices[lVertexCount * VERTEX_STRIDE] = static_cast<float>(pVertices[lControlPointIndex][0]);
-                lVertices[lVertexCount * VERTEX_STRIDE + 1] = static_cast<float>(pVertices[lControlPointIndex][1]);
-                lVertices[lVertexCount * VERTEX_STRIDE + 2] = static_cast<float>(pVertices[lControlPointIndex][2]);
-                lVertices[lVertexCount * VERTEX_STRIDE + 3] = 1;
+				// If the lControlPointIndex is -1, we probably have a corrupted mesh data. At this point,
+				// it is not guaranteed that the cache will work as expected.
+				if (lControlPointIndex >= 0)
+				{
+					lVertices[lVertexCount * VERTEX_STRIDE] = static_cast<float>(pVertices[lControlPointIndex][0]);
+					lVertices[lVertexCount * VERTEX_STRIDE + 1] = static_cast<float>(pVertices[lControlPointIndex][1]);
+					lVertices[lVertexCount * VERTEX_STRIDE + 2] = static_cast<float>(pVertices[lControlPointIndex][2]);
+					lVertices[lVertexCount * VERTEX_STRIDE + 3] = 1;
+				}
                 ++lVertexCount;
             }
         }

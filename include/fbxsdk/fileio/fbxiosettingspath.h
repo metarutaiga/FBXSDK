@@ -372,9 +372,10 @@
 #define IOSN_EXTRACT_EMBEDDED_DATA       "ExtractEmbeddedData"
 
 // internal usage
-#define IOSN_USETMPFILEPERIPHERAL		 "UseTmpFilePeripheral"
-#define IOSN_CONSTRUCTIONHISTORY         "ConstructionHistory"
-#define IOSN_RELAXED_FBX_CHECK           "RelaxedFbxCheck"
+#define IOSN_USETMPFILEPERIPHERAL		   "UseTmpFilePeripheral"
+#define IOSN_CONSTRUCTIONHISTORY           "ConstructionHistory"
+#define IOSN_RELAXED_FBX_CHECK             "RelaxedFbxCheck"
+#define IOSN_KEEP_PRODUCER_CAM_SRCOBJ      "KeepProducerCamSrcObj"
 
 //---------------------------
 // import defined path
@@ -597,7 +598,8 @@
 #define IMP_FBX_CURRENT_TAKE_NAME           IMP_FBX "|" IOSN_CURRENT_TAKE_NAME
 #define IMP_FBX_EXTRACT_EMBEDDED_DATA       IMP_FBX "|" IOSN_EXTRACT_EMBEDDED_DATA
 // internal use
-#define IMP_RELAXED_FBX_CHECK               IMP_FBX "|" IOSN_RELAXED_FBX_CHECK
+#define IMP_RELAXED_FBX_CHECK           IMP_FBX "|" IOSN_RELAXED_FBX_CHECK
+#define IMP_KEEP_PRODUCER_CAM_SRCOBJ    IMP_FBX "|" IOSN_KEEP_PRODUCER_CAM_SRCOBJ
 
 #define IMP_BUTTON_WEB_UPDATE           IMP_INFORMATION_GRP "|" IOSN_BUTTON_WEB_UPDATE
 #define IMP_PI_VERSION                  IMP_INFORMATION_GRP "|" IOSN_PI_VERSION
