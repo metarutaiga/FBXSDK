@@ -87,16 +87,16 @@ class MyMemoryAllocator
 public:
 	static void* MyMalloc(size_t pSize)
     {
-        char *p = (char*)malloc(pSize+1);
-        *p = '#';
-        return p+1;
+        char *p = (char*)malloc(pSize + FBXSDK_MEMORY_ALIGNMENT);
+		memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
+        return p + FBXSDK_MEMORY_ALIGNMENT;
     }
 
 	static void* MyCalloc(size_t pCount, size_t pSize)
     {
-        char *p = (char*)calloc(pCount, pSize+1);
-        *p = '#';
-        return p+1;
+        char *p = (char*)calloc(pCount, pSize + FBXSDK_MEMORY_ALIGNMENT);
+		memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
+        return p + FBXSDK_MEMORY_ALIGNMENT;
     }
 
 	static void* MyRealloc(void* pData, size_t pSize)
@@ -106,22 +106,22 @@ public:
             FBX_ASSERT(*((char*)pData-1)=='#');
             if (*((char*)pData-1)=='#')
             {
-                char *p = (char*)realloc((char*)pData-1, pSize+1);
-                *p = '#';
-                return p+1;
+                char *p = (char*)realloc((char*)pData - FBXSDK_MEMORY_ALIGNMENT, pSize + FBXSDK_MEMORY_ALIGNMENT);
+				memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
+                return p + FBXSDK_MEMORY_ALIGNMENT;
             }
             else
             {   // Mismatch
-                char *p = (char*)realloc((char*)pData, pSize+1);
-                *p = '#';
-                return p+1;
+                char *p = (char*)realloc((char*)pData, pSize + FBXSDK_MEMORY_ALIGNMENT);
+				memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
+                return p + FBXSDK_MEMORY_ALIGNMENT;
             }
         }
         else
         {
-            char *p = (char*)realloc(NULL, pSize+1);
-            *p = '#';
-            return p+1;
+            char *p = (char*)realloc(NULL, pSize + FBXSDK_MEMORY_ALIGNMENT);
+			memset(p, '#', FBXSDK_MEMORY_ALIGNMENT);
+            return p + FBXSDK_MEMORY_ALIGNMENT;
         }
     }
 
@@ -132,7 +132,7 @@ public:
         FBX_ASSERT(*((char*)pData-1)=='#');
         if (*((char*)pData-1)=='#')
         {
-            free((char*)pData-1);
+            free((char*)pData - FBXSDK_MEMORY_ALIGNMENT);
         }
         else
         {   // Mismatch

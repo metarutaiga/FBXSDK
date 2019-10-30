@@ -1,6 +1,6 @@
 /****************************************************************************************
  
-   Copyright (C) 2015 Autodesk, Inc.
+   Copyright (C) 2017 Autodesk, Inc.
    All rights reserved.
  
    Use of this software is subject to the terms of the Autodesk license agreement
@@ -155,10 +155,11 @@ class FbxXRefManager;
 #define FBX_2014_00_COMPATIBLE		"FBX201400"
 #define FBX_2016_00_COMPATIBLE		"FBX201600"
 #define FBX_2018_00_COMPATIBLE      "FBX201800"
+#define FBX_2019_00_COMPATIBLE      "FBX201900"
 
 //Default file version number used when writing new FBX files
 #define FBX_DEFAULT_FILE_VERSION		FBX_FILE_VERSION_7500
-#define FBX_DEFAULT_FILE_COMPATIBILITY	FBX_2018_00_COMPATIBLE
+#define FBX_DEFAULT_FILE_COMPATIBILITY	FBX_2019_00_COMPATIBLE
 
 /** Convert the FBX file version string to an integral number for <= or >= tests purposes.
   * \param pFileVersion File version string.

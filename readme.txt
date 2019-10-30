@@ -2,7 +2,7 @@
 
                                      README
 
-                             Autodesk FBX SDK 2018.1
+                             Autodesk FBX SDK 2019
                              -----------------------
 
 
@@ -37,25 +37,38 @@ TABLE OF CONTENTS
 
 1.1 Improvements and New Features
 
-    * [FBXX-1258] Add Audio transport support. 
-    * [FBXX-1279] Added more options to the FbxSceneCheck utility class.
+    * Added the FBX standardized renaming strategy to the Collada file read/write. This renaming
+      strategy will replace every character in the object names/ids, which does not comply with
+      the XML NCName scheme, with a string in the form "FBXASC###" were ### is the decimal value
+      of the ASCII character.
     
+    * Added extra parameter to GenerateTangentsData() family functions to skip testing for the tangent flip
+
 1.2 Changes and Deprecated Features
 
+    * moved the static functions FbxRenamingStrategy::NoPrefixName to FbxRenamingStrategyUtils::NoPrefixName
+      and it now returns an FbxString instead of a char*
         
 2. FIXED AND KNOWN ISSUES
 -------------------------
 
 2.1 Fixed Issues
-
-    * [FBXX-1384] Regression issue introduced by the Audio transport feature.
-    * [FBXX-1386] Copying FbxSkin object into another does not copy all data.    
+    [FBXX-1417] Fixed Wgettimeofday and Wgetlogin already define linker error.
+    [FBXX-1383] Fixed stack overflow when importing Collada files defining external references.
 
 2.2 Known Issues
 
 
 3. RELEASE NOTES FROM PREVIOUS RELEASES
 ---------------------------------------
+2018.1.1
+    * [FBXX-1384] Regression issue introduced by the Audio transport feature.
+    * [FBXX-1386] Copying FbxSkin object into another does not copy all data.
+    
+2018.1
+    * [FBXX-1258] Add Audio transport support. 
+    * [FBXX-1279] Added more options to the FbxSceneCheck utility class.
+
 2018.0
 
     * [FBXX-1303] Crash when deleting NURBS created with FbxGeometryConverter::ConvertPatchToNurbsSurface()
@@ -1777,7 +1790,7 @@ Autodesk and FBX are registered trademarks or trademarks of Autodesk, Inc., in
 the USA and/or other countries. All other brand names, product names, or trade-
 marks belong to their respective holders.
 
-                       Copyright (C) 2017 Autodesk, Inc.
+                       Copyright (C) 2018 Autodesk, Inc.
                               All Rights Reserved
 
 ================================================================================
