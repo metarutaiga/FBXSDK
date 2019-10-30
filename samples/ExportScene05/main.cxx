@@ -96,13 +96,13 @@ int main(int argc, char** argv)
 
 
     //The filename
-    const char* lFileName = "CustomWriter.ABC";
+    const char* lFileName = "CustomWriter.CFF";
 
     //at this point use our custom writer to write:
     FbxExporter* lExporter = FbxExporter::Create(lSdkManager, "");
 
     //Here, we set the custom writer.
-    int lFileFormat = lSdkManager->GetIOPluginRegistry()->FindWriterIDByExtension("ABC");
+    int lFileFormat = lSdkManager->GetIOPluginRegistry()->FindWriterIDByExtension("CFF");
     
     //Initialize the file
     if(lExporter->Initialize(lFileName, lFileFormat, lSdkManager->GetIOSettings()) == false)

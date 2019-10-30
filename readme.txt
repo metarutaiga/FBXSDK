@@ -2,7 +2,7 @@
 
                                      README
 
-               Autodesk FBX SDK 2016.1 Release, June 30th 2015
+               Autodesk FBX SDK 2016.1.2 Release, September 10th 2015
                --------------------------------------------------
 
 
@@ -36,12 +36,54 @@ TABLE OF CONTENTS
 ------------------------------
 
 1.1 Improvements and New Features
-
-    * [FBXX-967] Improved the LodGroup object to allow it to store thresholds
-      as percentage values or distance from camera.
       
 1.2 Changes and Deprecated Features
           
+
+2. FIXED AND KNOWN ISSUES
+-------------------------
+
+2.1 Fixed Issues
+
+    * [FBXX-1009] StringList default values not correctly initialized (regression in 2016.1).
+      Properties created with the FbxStringListDT data type were failing to initialize their default
+      value since the implementation of [FBXX-946]
+      
+
+2.2 Known Issues
+
+
+3. RELEASE NOTES FROM PREVIOUS RELEASES
+---------------------------------------
+
+2016.1.1
+
+    * [FBXX-997] FBX SDK Sample ExportScene05 uses a "reserved" (ABC) file extension.
+      the ABC extension being also used by the Alembic reader, the sample was selecting
+      the wrong reader when trying to load the custom file. Changed the extension of the
+      sample so no more conflict can occur. Note that the ABC extension can still be used
+      but a manual detection of the readerID, by calling FindReaderIDByDescription(),
+      is mandatory.
+
+      
+    * [FBXX-988] Resolved use of arbitrary up vector on cameras driven by a target. 
+      The FbxAnimEvalClassic::ComputeGlobalTransform() was implicitly assuming in its calculations,
+      when the pApplyTarget is true, that the global up vector of cameras constrained by an aim 
+      target is always (0,1,0). This was a false assumption if a different FbxSystemAxis had been 
+      applied to the scene and, at best, produced an arbitrary rotation of these cameras when the 
+      aim vector was parallel to the (0,1,0) vector.
+      
+    * [FBXX-986] Fixed potential security issue when reading certain legacy FBX files
+
+    * Added the GetMatrix(FbxAMAtrix& pMatrix) function to the FbxAxisSystem class that retrieves
+      the axis definition in the 4x4 matrix form.
+
+
+2016.1
+
+    * [FBXX-967] Improved the LodGroup object to allow it to store thresholds
+      as percentage values or distance from camera.
+               
     * [FBXX-946] Properties with the FbxEnumDT data type now perform a strict
       validation to forbid duplicates when items are added, inserted or replaced
       in the enumeration list. The new eFbxEnumM type identifier is available for
@@ -52,13 +94,6 @@ TABLE OF CONTENTS
       xmlReadFile() so we can set XML_PARSE_HUGE flag, which relaxes any hard-coded
       limit from the parser. This affects limits like maximum depth of a document or
       the entity recursion, as well as limits of the size of text nodes.
-  
-
-
-2. FIXED AND KNOWN ISSUES
--------------------------
-
-2.1 Fixed Issues
 
     * [FBXX-952] Fixed an issue with the Animation Curve Pre/Post Extrapolation
       data. In the very particular case of a program creating an animation curve
@@ -76,13 +111,6 @@ TABLE OF CONTENTS
       floating point values. 
       The FBX SDK now provides a method (FbxEuler::SetDegenerateThreshold()) to allow
       the client application to change the threshold value at runtime.
-
-
-2.2 Known Issues
-
-
-3. RELEASE NOTES FROM PREVIOUS RELEASES
----------------------------------------
 
 2016.0
 

@@ -24,13 +24,13 @@ void* GetMyOwnWriterInfo(FbxWriter::EInfoRequest pRequest, int /*pId*/)
 {
     static const char* sExt[] = 
     {
-        "ABC",
+        "CFF",
         0
     };
 
     static const char* sDesc[] = 
     {
-        "Example Custom FileFormat (*.ABC)",
+        "Example Custom FileFormat (*.CFF)",
         0
     };
 
