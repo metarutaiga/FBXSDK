@@ -2,7 +2,7 @@
 
                                      README
 
-               Autodesk FBX SDK 2016.1.2 Release, September 10th 2015
+               Autodesk FBX SDK 2017.0.1, April 14th 2016
                --------------------------------------------------
 
 
@@ -25,38 +25,77 @@ the Autodesk FBX team
 TABLE OF CONTENTS
 -----------------
 
-    1. Features Improvements And Changes
+    1. Features, Improvements And Changes
     2. Fixed And Known Issues
     3. Release Notes From Previous Releases
     4. Legal Disclaimer 
 
 
 
-1. NEW AND DEPRECATED FEATURES
-------------------------------
+1. FEATURES, IMPROVEMENTS AND CHANGES
+-------------------------------------
 
 1.1 Improvements and New Features
-      
-1.2 Changes and Deprecated Features
-          
+    
+    [FBXX-999] Added the new eRelativeRepetition flag to the animation curves extrapolation flags.
+    
+    [FBXX-1023] Refactored FbxUtils to minimize possible buffer under/overflows.
+    
+    [FBXX-1031] Added new roll bones to the FbxCharacter definition.
 
+    
+1.2 Changes and Deprecated Features
+
+    Removed deprecated functions
+    
+        FbxObject::Is(const FbxClassId& pClassId)
+        FbxObject::DisconnectAllSrcObject(FbxClassId pClassId)
+        FbxObject::GetSrcObjectCount(FbxClassId pClassId)
+        FbxObject::GetSrcObject(FbxClassId pClassId, int pIndex=0)
+        FbxObject::FindSrcObject(FbxClassId pClassId, const char* pName, int pStartIndex=0)
+        FbxObject::DisconnectAllDstObject(FbxClassId pClassId)
+        FbxObject::GetDstObjectCount(FbxClassId pClassId)
+        FbxObject::GetDstObject(FbxClassId pClassId, int pIndex=0)
+        FbxObject::FindDstObject(FbxClassId pClassId, const char* pName,int pStartIndex=0)
+    
+        FbxProperty::DisconnectAllSrcObject(const FbxClassId& pClassId)
+        FbxProperty::GetSrcObjectCount(const FbxClassId& pClassId)
+        FbxProperty::GetSrcObject(const FbxClassId& pClassId, const int pIndex=0)
+        FbxProperty::FindSrcObject(const FbxClassId& pClassId, const char* pName, const int pStartIndex=0)
+        FbxProperty::DisconnectAllDstObject(const FbxClassId& pClassId)
+        FbxProperty::GetDstObjectCount(const FbxClassId& pClassId)
+        FbxProperty::GetDstObject(const FbxClassId& pClassId, const int pIndex=0)
+        FbxProperty::FindDstObject(const FbxClassId& pClassId, const char* pName, const int pStartIndex=0)
+        
 2. FIXED AND KNOWN ISSUES
 -------------------------
 
 2.1 Fixed Issues
 
-    * [FBXX-1009] StringList default values not correctly initialized (regression in 2016.1).
-      Properties created with the FbxStringListDT data type were failing to initialize their default
-      value since the implementation of [FBXX-946]
-      
+    [FBXX-1066] The SDK version is still reported as an "Alpha" release
+    
+    [FBXX-1019] Loading a .3ds file with a texture is very slow when using Python bindings
 
+    [FBXX-1026] Crash when triangulating NURBS surfaces
+    
+    [FBXX-1051] In some cases shape normals are written beyond array boundaries
+    
 2.2 Known Issues
 
 
 3. RELEASE NOTES FROM PREVIOUS RELEASES
 ---------------------------------------
 
+2016.1.2
+
+    * [FBXX-1009] StringList default values not correctly initialized (regression in 2016.1).
+      Properties created with the FbxStringListDT data type were failing to initialize their default
+      value since the implementation of [FBXX-946]
+
 2016.1.1
+
+    * Added the GetMatrix(FbxAMAtrix& pMatrix) function to the FbxAxisSystem class that retrieves
+      the axis definition in the 4x4 matrix form.
 
     * [FBXX-997] FBX SDK Sample ExportScene05 uses a "reserved" (ABC) file extension.
       the ABC extension being also used by the Alembic reader, the sample was selecting
@@ -74,9 +113,6 @@ TABLE OF CONTENTS
       aim vector was parallel to the (0,1,0) vector.
       
     * [FBXX-986] Fixed potential security issue when reading certain legacy FBX files
-
-    * Added the GetMatrix(FbxAMAtrix& pMatrix) function to the FbxAxisSystem class that retrieves
-      the axis definition in the 4x4 matrix form.
 
 
 2016.1
@@ -1717,7 +1753,7 @@ Autodesk and FBX are registered trademarks or trademarks of Autodesk, Inc., in
 the USA and/or other countries. All other brand names, product names, or trade-
 marks belong to their respective holders.
 
-                       Copyright (C) 2015 Autodesk, Inc.
+                       Copyright (C) 2016 Autodesk, Inc.
                               All Rights Reserved
 
 ================================================================================
